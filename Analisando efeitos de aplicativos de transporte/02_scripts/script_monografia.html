@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Analisando efeitos de aplicativos de transporte nas condições de trabalho de condutores nas capitais brasileiras.</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="script_monografia_files/libs/clipboard/clipboard.min.js"></script>
+<script src="script_monografia_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="script_monografia_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="script_monografia_files/libs/quarto-html/popper.min.js"></script>
+<script src="script_monografia_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="script_monografia_files/libs/quarto-html/anchor.min.js"></script>
+<link href="script_monografia_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="script_monografia_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="script_monografia_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="script_monografia_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="script_monografia_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#montando-base-de-dados" id="toc-montando-base-de-dados" class="nav-link active" data-scroll-target="#montando-base-de-dados">1. Montando base de dados</a>
+  <ul class="collapse">
+  <li><a href="#levantamento-de-dados" id="toc-levantamento-de-dados" class="nav-link" data-scroll-target="#levantamento-de-dados">1.1. Levantamento de dados</a>
+  <ul class="collapse">
+  <li><a href="#número-de-condutores-e-percentual-de-contribuição" id="toc-número-de-condutores-e-percentual-de-contribuição" class="nav-link" data-scroll-target="#número-de-condutores-e-percentual-de-contribuição">1.1.1. Número de condutores e percentual de contribuição</a></li>
+  <li><a href="#jornada-de-trabalho" id="toc-jornada-de-trabalho" class="nav-link" data-scroll-target="#jornada-de-trabalho">1.1.2. Jornada de trabalho</a></li>
+  <li><a href="#taxa-de-desocupaçãodesemprego" id="toc-taxa-de-desocupaçãodesemprego" class="nav-link" data-scroll-target="#taxa-de-desocupaçãodesemprego">1.1.3. Taxa de desocupação/desemprego</a></li>
+  <li><a href="#percentual-com-ensino-superior" id="toc-percentual-com-ensino-superior" class="nav-link" data-scroll-target="#percentual-com-ensino-superior">1.1.4. Percentual com ensino superior</a></li>
+  </ul></li>
+  <li><a href="#automoção-através-de-definição-de-função" id="toc-automoção-através-de-definição-de-função" class="nav-link" data-scroll-target="#automoção-através-de-definição-de-função">1.2. Automoção através de definição de função</a>
+  <ul class="collapse">
+  <li><a href="#criando-loop-para-gerar-dados-de-diversos-anos" id="toc-criando-loop-para-gerar-dados-de-diversos-anos" class="nav-link" data-scroll-target="#criando-loop-para-gerar-dados-de-diversos-anos">1.2.1. Criando loop para gerar dados de diversos anos</a></li>
+  <li><a href="#agregando-variável-pib-per-capita" id="toc-agregando-variável-pib-per-capita" class="nav-link" data-scroll-target="#agregando-variável-pib-per-capita">1.2.2. Agregando variável PIB per capita</a></li>
+  <li><a href="#agregando-taxa-de-acidentes-por-100-mil-hab." id="toc-agregando-taxa-de-acidentes-por-100-mil-hab." class="nav-link" data-scroll-target="#agregando-taxa-de-acidentes-por-100-mil-hab.">1.2.3. Agregando taxa de acidentes por 100 mil hab.</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#análise-descritiva" id="toc-análise-descritiva" class="nav-link" data-scroll-target="#análise-descritiva">2. Análise descritiva</a>
+  <ul class="collapse">
+  <li><a href="#tratamento-dos-dados" id="toc-tratamento-dos-dados" class="nav-link" data-scroll-target="#tratamento-dos-dados">2.1. Tratamento dos dados</a></li>
+  <li><a href="#estimativa-de-condutores-nas-capitais" id="toc-estimativa-de-condutores-nas-capitais" class="nav-link" data-scroll-target="#estimativa-de-condutores-nas-capitais">2.2. Estimativa de condutores nas capitais</a></li>
+  <li><a href="#contribuição-previdenciária" id="toc-contribuição-previdenciária" class="nav-link" data-scroll-target="#contribuição-previdenciária">2.3. Contribuição previdenciária</a></li>
+  <li><a href="#jornada-média-de-trabalho" id="toc-jornada-média-de-trabalho" class="nav-link" data-scroll-target="#jornada-média-de-trabalho">2.4. Jornada média de trabalho</a></li>
+  </ul></li>
+  <li><a href="#análise-econométrica" id="toc-análise-econométrica" class="nav-link" data-scroll-target="#análise-econométrica">3. Análise econométrica</a>
+  <ul class="collapse">
+  <li><a href="#tratamento-dos-dados-1" id="toc-tratamento-dos-dados-1" class="nav-link" data-scroll-target="#tratamento-dos-dados-1">3.1. Tratamento dos dados</a></li>
+  <li><a href="#contribuição-previdenciária-1" id="toc-contribuição-previdenciária-1" class="nav-link" data-scroll-target="#contribuição-previdenciária-1">3.2. Contribuição previdenciária</a></li>
+  <li><a href="#jornada-de-trabalho-1" id="toc-jornada-de-trabalho-1" class="nav-link" data-scroll-target="#jornada-de-trabalho-1">3.3. Jornada de trabalho</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Analisando efeitos de aplicativos de transporte nas condições de trabalho de condutores nas capitais brasileiras.</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Este estudo tem como objetivo principal analisar os impactos das plataformas digitais de transporte de passageiros e entregas nas condições de trabalho dos condutores nas capitais brasileiras. A pesquisa investiga duas dimensões específicas das condições de trabalho: a formalização, medida pela taxa de contribuição previdenciária, e a duração da jornada de trabalho. A hipótese central, baseada na literatura, é que a entrada desses aplicativos no mercado de trabalho resultou em uma piora das condições de trabalho, especificamente através de uma redução na taxa de contribuição para a previdência e um aumento na jornada média de trabalho (Firat, 2021; Lopes, 2022; Abilio e Santiago, 2024; Carvalho e Nogueira, 2024).</p>
+<p>Para testar essa hipótese, foi realizada uma análise quantitativa utilizando microdados da Pesquisa Nacional por Amostra de Domicílios Contínua (PNAD Contínua), agregados por capital, para o período do primeiro trimestre de 2012 ao último de 2017. A metodologia econométrica empregada inclui a estimação de modelos de Diferenças em Diferenças (Diff-in-Diff), sendo adequado para avaliar o impacto de uma intervenção.</p>
+<p>Este documento detalha o processo de análise de dados, desde a extração e tratamento dos microdados até a estimação dos modelos econométricos propostos.</p>
+<p>A análise é produto do meu trabalho de monografia do curso de Ciências Econômicas na Universidade Federal de Goiás (UFG). Caso identifique algum erro no script ou tenha eventuais dúvidas, só enviar e-mail para: alef.santos62@hotmail.com. Também estou disponível para consultorias e trabalhos em análise e ciência de dados. Meu perfil linkedin é: <a href="https://www.linkedin.com/in/alefsantos42/">linkedin.com/in/alefsantos42/</a></p>
+<p>Abaixo, abriremos as bibliotecas que serão úteis no desenvolvimento do script.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PNADcIBGE)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(did)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandwich)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="montando-base-de-dados" class="level1">
+<h1>1. Montando base de dados</h1>
+<p>Esta seção refere-se à construção da base de dados. O processo inicia-se com a extração e tratamento dos microdados da PNAD Contínua e conclui-se com a criação de uma função para automatizar a coleta para múltiplos períodos, garantindo a replicabilidade do estudo.</p>
+<section id="levantamento-de-dados" class="level2">
+<h2 class="anchored" data-anchor-id="levantamento-de-dados">1.1. Levantamento de dados</h2>
+<p>A primeira coisa a ser realizada é o download dos dados da Pnad-C, para isso utilizaremos a função <code>get_pnad</code> da biblioteca <code>PNADcIBGE</code> . Informaremos como parâmetros o ano, trimestre, variáveis (esta parte é especialmente importante para termos uma base de dados mais leve).</p>
+<p>E também definiremos FALSE para o parâmetro <code>design</code> , dessa forma obteremos os microdados em dataframe (torna a leitura dos dados mais fácil). No entanto, é recomendado TRUE, obtendo um objeto da classe survey.design, para trabalhar com análises inferenciais da população. Para fins deste trabalho, usaremos a variável V1028 como peso populacional.</p>
+<p>Utilizaremos como exemplo o primeiro trimestre do ano de 2015.</p>
+<p>*Consulte dicionário da PnadC para saber a definição de cada variável.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#carregando os dados</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>base_pnadc <span class="ot">&lt;-</span> <span class="fu">get_pnadc</span>(<span class="dv">2015</span>, <span class="dv">1</span>, <span class="at">vars=</span><span class="fu">c</span>(<span class="st">"VD4016"</span>,<span class="st">"V4013"</span>, <span class="st">"V4010"</span>, <span class="st">"VD4009"</span>, <span class="st">"VD4012"</span>, <span class="st">"V4039C"</span>, <span class="st">"VD4013"</span>, <span class="st">"Capital"</span>, <span class="st">"VD4002"</span>, <span class="st">"VD4001"</span>, <span class="st">"V1028"</span>, <span class="st">"VD4032"</span>, <span class="st">"VD3004"</span>, <span class="st">"V2009"</span>, <span class="st">"V4039"</span>), <span class="at">design =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A pesquisa da PnadC realiza entrevista com residentes de diversos municípios. No entanto, apenas os residentes das capitais têm sua localização municipal identificada. Para ilustrar isso, a variável Capital do dataframe base_pnadc tem valores ausentes na ocorrência de domicílios não situados em capitais. E isto justifica a restrição da análise da monografia às capitais.</p>
+<p>Com isso, iremos padronizar a variável Capital através da função <code>gsub</code> , removendo o prefixo “Município de”. E em seguida, filtraremos todas as observações que sejam diferentes de valores vazios na variável (missings).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>base_tratada <span class="ot">&lt;-</span> base_pnadc <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Capital =</span> <span class="fu">gsub</span>(<span class="st">"Município de "</span>, <span class="st">""</span>, Capital)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Capital))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>base_tratada <span class="sc">%&gt;%</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Este resultado retornou 132.876 indivíduos que residem em domocílios situados em capitais.</p>
+<p>A seguir, iremos identificar os condutores.</p>
+<section id="número-de-condutores-e-percentual-de-contribuição" class="level3">
+<h3 class="anchored" data-anchor-id="número-de-condutores-e-percentual-de-contribuição">1.1.1. Número de condutores e percentual de contribuição</h3>
+<p>Para analisar os efeitos do Uber sobre o percentual de contribuintes, é necessário identificar os trabalhadores ou que estejam sobre influência deste mercado. Portanto, é selecionado Condutores de automóveis, taxis e caminhonetes (8322) ou Condutores de motocicletas (8321), conforme Classificação de Ocupações para as Pesquisas Domiciliares (COD). E que trabalhem nas atividades de Transporte rodoviário de passageiros (49030) ou Atividades de malote e de entrega (53002), conforme Classificação Nacional de Atividades Econômicas Domiciliar 2.0 (CNAE).</p>
+<p>Além disto, filtraremos indivíduos com idade maior de 18 anos.</p>
+<p>Por fim, iremos estimar quantas pessoas com as características mencionadas existem em cada capital, considerando o peso populacional <code>V1028</code> . E observaremos quantos deles contribuem com a previdência social, calculando o percentual de contribuintes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#filtrando os condutores e atividades</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>condutores_1 <span class="ot">&lt;-</span> base_tratada <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(V2009 <span class="sc">&gt;=</span> <span class="dv">18</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(V4013 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"49030"</span>, <span class="st">"53002"</span>) <span class="sc">&amp;</span> V4010 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"8322"</span>, <span class="st">"8321"</span>))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Número de entrevistados:"</span>, <span class="fu">nrow</span>(condutores_1), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#calculando contribuição previdenciária</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>condutores_2 <span class="ot">&lt;-</span> condutores_1 <span class="sc">%&gt;%</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">group_by</span>(Ano, Trimestre, Capital, VD4012) <span class="sc">%&gt;%</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(V1028, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">VD4012 =</span> <span class="fu">gsub</span>(<span class="st">"Não contribuinte"</span>, <span class="st">"Nao_contribuinte"</span>, VD4012)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> VD4012, <span class="at">values_from =</span> total, <span class="at">values_fill =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">contribuinte_previdencia =</span> Contribuinte <span class="sc">/</span> (Contribuinte <span class="sc">+</span> Nao_contribuinte))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Estimativa populacional:"</span>, <span class="fu">sum</span>(condutores_1<span class="sc">$</span>V1028))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Como pode ser visto acima, o número de pessoas entrevistadas que corresponderam as condições no primeiro trimestre de 2015 em todo o Brasil foi um total de 773. E estima-se que haja 276.275 pessoas no Brasil com tais características.</p>
+</section>
+<section id="jornada-de-trabalho" class="level3">
+<h3 class="anchored" data-anchor-id="jornada-de-trabalho">1.1.2. Jornada de trabalho</h3>
+<p>Abaixo, é estimada a carga horária média de trabalho semanal dos condutores por capital, ponderada pelo peso populacional V1028.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#estimando a jornada média semanal de trabalho    </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>horas_trabalho <span class="ot">&lt;-</span> base_tratada <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(V4013 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"49030"</span>, <span class="st">"53002"</span>) <span class="sc">&amp;</span> V4010 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"8322"</span>, <span class="st">"8321"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(V2009 <span class="sc">&gt;=</span> <span class="dv">18</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Ano, Trimestre, Capital) <span class="sc">%&gt;%</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">horas_trabalho =</span> <span class="fu">weighted.mean</span>(V4039, V1028, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="taxa-de-desocupaçãodesemprego" class="level3">
+<h3 class="anchored" data-anchor-id="taxa-de-desocupaçãodesemprego">1.1.3. Taxa de desocupação/desemprego</h3>
+<p>A seguir será calculada a taxa de desocupação das capitais. Para isso, filtraremos apenas pessoas que estejam na força de trabalho e que tenham respondido a variável <code>VD4002</code>, no qual identifica se no momento o indivíduo está ocupado ou desocupado, com isso calculamos o percentual de desocupação. O parâmetro <code>wt</code> da função <code>count</code>, é utilizada para declarar o peso populacional.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>desemprego <span class="ot">&lt;-</span> base_tratada <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">group_by</span>(Ano, Trimestre, Capital) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(VD4001 <span class="sc">==</span> <span class="st">"Pessoas na força de trabalho"</span> <span class="sc">&amp;</span> VD4002 <span class="sc">!=</span> <span class="st">"(Missing)"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">count</span>(VD4002, <span class="at">wt =</span> V1028) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">mutate</span>(<span class="at">taxa_desemprego =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(VD4002 <span class="sc">==</span> <span class="st">"Pessoas desocupadas"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(Capital, taxa_desemprego, Ano, Trimestre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="percentual-com-ensino-superior" class="level3">
+<h3 class="anchored" data-anchor-id="percentual-com-ensino-superior">1.1.4. Percentual com ensino superior</h3>
+<p>Abaixo, estimaremos o percentual de pessoas com ensino superior nas capitais. Para isso, primeiro filtraremos apenas os que responderam a variável de escolaridade <code>VD3004</code>. E também idade entre 18 e 65 anos. E por fim, estimaremos a população da cidade com tal idade, e quantas delas possuem ensino superior completo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ensino_superior <span class="ot">&lt;-</span> base_tratada <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(V2009 <span class="sc">&gt;=</span> <span class="dv">18</span> <span class="sc">&amp;</span> V2009 <span class="sc">&lt;=</span> <span class="dv">65</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(VD3004)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Capital, Ano, Trimestre) <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">total_pop =</span> <span class="fu">sum</span>(V1028, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">total_superior =</span> <span class="fu">sum</span>(V1028[VD3004 <span class="sc">==</span> <span class="st">"Superior completo"</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">perc_superior =</span> (total_superior <span class="sc">/</span> total_pop) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Capital))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="automoção-através-de-definição-de-função" class="level2">
+<h2 class="anchored" data-anchor-id="automoção-através-de-definição-de-função">1.2. Automoção através de definição de função</h2>
+<p>Todo o processo realizado acima, será automizada através da definição da função <code>analisando_pnad</code> com os parâmetros do ano e trimestre. E por fim, através da função <code>left_join</code>, iremos consolidar todas as informações em um único dataframe.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>analisando_pnad <span class="ot">&lt;-</span> <span class="cf">function</span>(ano, trimestre) {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#baixando os dados</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  base_pnadc <span class="ot">&lt;-</span> <span class="fu">get_pnadc</span>(ano, trimestre, <span class="at">vars=</span><span class="fu">c</span>(<span class="st">"VD4016"</span>,<span class="st">"V4013"</span>, <span class="st">"V4010"</span>, <span class="st">"VD4009"</span>, <span class="st">"VD4012"</span>, <span class="st">"V4039C"</span>, <span class="st">"VD4013"</span>, <span class="st">"Capital"</span>, <span class="st">"VD4002"</span>, <span class="st">"VD4001"</span>, <span class="st">"V1028"</span>, <span class="st">"VD4032"</span>, <span class="st">"VD3004"</span>, <span class="st">"V2009"</span>, <span class="st">"V4039"</span>), <span class="at">design =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#tratando os dados</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  base_tratada <span class="ot">&lt;-</span> base_pnadc <span class="sc">%&gt;%</span> </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Capital =</span> <span class="fu">gsub</span>(<span class="st">"Município de "</span>, <span class="st">""</span>, Capital)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Capital))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#estimando os condutores e o percentual de contribuição</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  condutores <span class="ot">&lt;-</span> base_tratada <span class="sc">%&gt;%</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(V2009 <span class="sc">&gt;=</span> <span class="dv">18</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(V4013 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"49030"</span>, <span class="st">"53002"</span>) <span class="sc">&amp;</span> </span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>            V4010 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"8322"</span>, <span class="st">"8321"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Ano, Trimestre, Capital, VD4012) <span class="sc">%&gt;%</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(V1028, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">VD4012 =</span> <span class="fu">gsub</span>(<span class="st">"Não contribuinte"</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"Nao_contribuinte"</span>, VD4012)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> VD4012, <span class="at">values_from =</span> total,</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>                <span class="at">values_fill =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">contribuinte_previdencia =</span> Contribuinte <span class="sc">/</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>                 (Contribuinte <span class="sc">+</span> Nao_contribuinte))</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co">#estimando a jornada média semanal de trabalho    </span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  horas_trabalho <span class="ot">&lt;-</span> base_tratada <span class="sc">%&gt;%</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(V4013 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"49030"</span>, <span class="st">"53002"</span>) <span class="sc">&amp;</span> V4010 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"8322"</span>, <span class="st">"8321"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(V2009 <span class="sc">&gt;=</span> <span class="dv">18</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Ano, Trimestre, Capital) <span class="sc">%&gt;%</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">horas_trabalho =</span> <span class="fu">weighted.mean</span>(V4039, V1028, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="co">#calculando a taxa de desemprego</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  desemprego <span class="ot">&lt;-</span> base_tratada <span class="sc">%&gt;%</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Ano, Trimestre, Capital) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(VD4001 <span class="sc">==</span> <span class="st">"Pessoas na força de trabalho"</span> <span class="sc">&amp;</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>             VD4002 <span class="sc">!=</span> <span class="st">"(Missing)"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(VD4002, <span class="at">wt =</span> V1028) <span class="sc">%&gt;%</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">taxa_desemprego =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(VD4002 <span class="sc">==</span> <span class="st">"Pessoas desocupadas"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(Capital, taxa_desemprego, Ano, Trimestre)</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a><span class="co">#calculando percentual da população adulta com ensino superior  </span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>  ensino_superior <span class="ot">&lt;-</span> base_tratada <span class="sc">%&gt;%</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(V2009 <span class="sc">&gt;=</span> <span class="dv">18</span> <span class="sc">&amp;</span> V2009 <span class="sc">&lt;=</span> <span class="dv">65</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(VD3004)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Capital, Ano, Trimestre) <span class="sc">%&gt;%</span></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">total_pop =</span> <span class="fu">sum</span>(V1028, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>      <span class="at">total_superior =</span> <span class="fu">sum</span>(V1028[VD3004 <span class="sc">==</span> <span class="st">"Superior completo"</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>      <span class="at">perc_superior =</span> (total_superior <span class="sc">/</span> total_pop) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Capital))</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a><span class="co">#juntando em um único dataframe</span></span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>  resultado_final <span class="ot">&lt;-</span> condutores <span class="sc">|&gt;</span> </span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(horas_trabalho, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Ano"</span>, <span class="st">"Trimestre"</span>, <span class="st">"Capital"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(desemprego, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Ano"</span>, <span class="st">"Trimestre"</span>, <span class="st">"Capital"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(ensino_superior, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Ano"</span>, <span class="st">"Trimestre"</span>, <span class="st">"Capital"</span>))</span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(resultado_final)</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Abaixo, iremos aplicar a função definida acima, para observar se está sendo executada corretamente.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>resultado_2015_1 <span class="ot">&lt;-</span> <span class="fu">analisando_pnad</span>(<span class="dv">2015</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="criando-loop-para-gerar-dados-de-diversos-anos" class="level3">
+<h3 class="anchored" data-anchor-id="criando-loop-para-gerar-dados-de-diversos-anos">1.2.1. Criando loop para gerar dados de diversos anos</h3>
+<p>A seguir iremos criar um loop para que a função seja executada para todos os trimestres dos anos de 2012 à 2017. Primeiro criaremos um dataframe vazio que irá receber os resultados de cada vez que a função for executada. Depois para cada ano, será executado os trimestres de 1 a 4. E por fim, armazaremos o resultado no dataframe vazio.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">timeout =</span> <span class="dv">600</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>resultado_total <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop para os anos e trimestres</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (ano <span class="cf">in</span> <span class="dv">2016</span><span class="sc">:</span><span class="dv">2017</span>) {</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (trimestre <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Chama a função para o ano e trimestre atuais</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    resultado <span class="ot">&lt;-</span> <span class="fu">analisando_pnad</span>(ano, trimestre)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Adiciona o resultado ao data frame total</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    resultado_total <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(resultado_total, resultado)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co">#write.xlsx(resultado_4, "~/Projeto Monografia/Dados/dados_backup.xlsx")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A seguir, adicionaremos mais duas variáveis que também servirão como controle.</p>
+</section>
+<section id="agregando-variável-pib-per-capita" class="level3">
+<h3 class="anchored" data-anchor-id="agregando-variável-pib-per-capita">1.2.2. Agregando variável PIB per capita</h3>
+<p>A primeira é o PIB per capita, que foi calculado a partir da divisão do PIB a preços correntes do ano pela estimativa populacional do município no trimestre. Utilizaremos a função <code>left_join</code> para juntar ao dataframe principal.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#carregando os dados</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>pib_per_capita <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:/Users/HP I3/OneDrive/Documentos/Projeto Monografia/Dados/pib_per_capita.xlsx"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>resultado_total_2 <span class="ot">&lt;-</span> resultado_total <span class="sc">%&gt;%</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Ano =</span> <span class="fu">as.numeric</span>(Ano),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">Trimestre =</span> <span class="fu">as.numeric</span>(Trimestre)) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(pib_per_capita, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Ano"</span>,<span class="st">"Trimestre"</span>,<span class="st">"Capital"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="agregando-taxa-de-acidentes-por-100-mil-hab." class="level3">
+<h3 class="anchored" data-anchor-id="agregando-taxa-de-acidentes-por-100-mil-hab.">1.2.3. Agregando taxa de acidentes por 100 mil hab.</h3>
+<p>A taxa de acidentes de trânsito por 100 mil habitantes foi coletada do Instituto de Pesquisa Econômica Aplicada (IPEA)</p>
+<p>A estrutura dos dados tem duas complexidades que precisam ser tratadas, a primeira delas é filtrar apenas os municípios que são capitais. E a segunda, é alterar a estrutura para dados longos através da função <code>pivot_longer</code>, isto é, em vez dos anos estarem dispostos como colunas, serem transformadas em linhas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#carregando os dados</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>acidentes <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:/Users/HP I3/OneDrive/Documentos/Projeto Monografia/Dados/acidentes.xlsx"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#gerando vetor com nome das capitais</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>capitais <span class="ot">&lt;-</span> resultado_total_2 <span class="sc">%&gt;%</span> </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(Capital) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#filtrando as capitais e transformando em dados longos</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>acidentes <span class="ot">&lt;-</span> acidentes <span class="sc">%&gt;%</span> </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(Município <span class="ot">=</span> <span class="fu">paste0</span>(Município,<span class="st">" ("</span>,Sigla,<span class="st">")"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Município <span class="sc">%in%</span> capitais) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Sigla, <span class="sc">-</span>Codigo) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">12</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"Ano"</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"taxa_acidentes"</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>               ) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Ano =</span> <span class="fu">as.numeric</span>(Ano))</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="co">#juntando à base</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>resultado_completo <span class="ot">&lt;-</span> resultado_total_2 <span class="sc">%&gt;%</span> </span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(acidentes, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Ano"</span>, <span class="st">"Capital"</span> <span class="ot">=</span> <span class="st">"Município"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="análise-descritiva" class="level1">
+<h1>2. Análise descritiva</h1>
+<p>Nessa seção observaremos as estimativas históricas de condutores nas capitais brasileiras e as variáveis dependentes, primeiro agregando todas as capitais, e postiormente por fase de inserção da plataforma no mercado brasileiro e grupo de controle, dividindo-se da seguinte forma:</p>
+<ul>
+<li><p><strong>Fase de implementação</strong>: contempla as primeiras capitais a terem aplicativos de transporte e/ou entregas, entrantes do período 11 e 13 conforme o quadro abaixo.;</p></li>
+<li><p><strong>Fase de expansão</strong>: refere-se às capitais do período 18, 19, 20, 21 e 22, conforme quadro abaixo.</p></li>
+<li><p><strong>Grupo de controle</strong>: as capitais que receberam plataforma em 2017 e que são instrumentalizadas como grupo de controle.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 64%">
+<col style="width: 35%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Capitais</strong></td>
+<td style="text-align: center;"><strong>Trimestre de início (Time)</strong></td>
+</tr>
+<tr class="even">
+<td>Rio de Janeiro, São Paulo</td>
+<td style="text-align: center;">mar/14 (11)</td>
+</tr>
+<tr class="odd">
+<td>Belo Horizonte; Brasília; Porto Alegre</td>
+<td style="text-align: center;">jan/15 (13)</td>
+</tr>
+<tr class="even">
+<td>Recife; Curitiba; Salvador; Fortaleza, Goiânia, Natal</td>
+<td style="text-align: center;">mar/16 (19)</td>
+</tr>
+<tr class="odd">
+<td>Florianópolis; Vitória; João Pessoa; Campo Grande; Maceió; Cuiabá</td>
+<td style="text-align: center;">jan/17 (21)</td>
+</tr>
+<tr class="even">
+<td>Aracaju; Teresina; Belém; São Luís</td>
+<td style="text-align: center;">fev/17 (22)</td>
+</tr>
+<tr class="odd">
+<td>Palmas; Manaus; Porto Velho; Boa Vista; Macapá; Rio Branco</td>
+<td style="text-align: center;">Controle</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<p>O time é uma contagem temporal que varia entre o primeiro trimestre de 2012 e o último de 2017, totalizando 24 períodos. Portanto, o segundo trimestre de 2014 (mar/14), refere-se ao time 11.</p>
+<section id="tratamento-dos-dados" class="level2">
+<h2 class="anchored" data-anchor-id="tratamento-dos-dados">2.1. Tratamento dos dados</h2>
+<p>A seguir iremos definir os períodos de ínicio de operação das plataformas nas capitais. Depois criaremos a variável <code>grupo</code>, dividindo as capitais em implementação, expansão e controle. E por fim, definiremos a variável de data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Time de início de cada capital</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>time_capitais <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Capital,                           <span class="sc">~</span>periodo_inicio,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Rio de Janeiro (RJ)"</span>,               <span class="dv">11</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"São Paulo (SP)"</span>,                    <span class="dv">11</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Belo Horizonte (MG)"</span>,               <span class="dv">13</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Brasília (DF)"</span>,                     <span class="dv">13</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Porto Alegre (RS)"</span>,                 <span class="dv">13</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Goiânia (GO)"</span>,                      <span class="dv">19</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Recife (PE)"</span>,                       <span class="dv">19</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Curitiba (PR)"</span>,                     <span class="dv">19</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Salvador (BA)"</span>,                     <span class="dv">19</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Fortaleza (CE)"</span>,                    <span class="dv">19</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Natal (RN)"</span>,                        <span class="dv">19</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Florianópolis (SC)"</span>,                <span class="dv">21</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Vitória (ES)"</span>,                      <span class="dv">21</span>,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"João Pessoa (PB)"</span>,                  <span class="dv">21</span>,</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Campo Grande (MS)"</span>,                 <span class="dv">21</span>,</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Maceió (AL)"</span>,                       <span class="dv">21</span>,</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Cuiabá (MT)"</span>,                       <span class="dv">21</span>,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Aracaju (SE)"</span>,                      <span class="dv">22</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Teresina (PI)"</span>,                     <span class="dv">22</span>,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Belém (PA)"</span>,                        <span class="dv">22</span>,</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">"São Luís (MA)"</span>,                     <span class="dv">22</span>,</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Palmas (TO)"</span>,                       <span class="cn">NA</span>,</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Manaus (AM)"</span>,                       <span class="cn">NA</span>,</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Porto Velho (RO)"</span>,                  <span class="cn">NA</span>,</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Boa Vista (RR)"</span>,                    <span class="cn">NA</span>,</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Macapá (AP)"</span>,                       <span class="cn">NA</span>,</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Rio Branco (AC)"</span>,                   <span class="cn">NA</span>,</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>data_descritivo <span class="ot">&lt;-</span> resultado_completo <span class="sc">%&gt;%</span> </span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(time_capitais, <span class="at">by =</span> <span class="st">"Capital"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">grupo =</span> <span class="fu">case_when</span>(periodo_inicio <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">11</span>,<span class="dv">13</span>) <span class="sc">~</span> <span class="st">"Implementação"</span>,</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>                           periodo_inicio <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">19</span>,<span class="dv">21</span>,<span class="dv">22</span>) <span class="sc">~</span> <span class="st">"Expansão"</span>,</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>                           <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Controle"</span>),</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>         <span class="at">data_trimestre =</span> <span class="fu">yq</span>(<span class="fu">paste0</span>(Ano, <span class="st">"/"</span>, Trimestre)),</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>         <span class="at">label_trimestre =</span> <span class="fu">paste0</span>(Trimestre, <span class="st">"/"</span>, Ano))</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="fu">write.xlsx</span>(data_descritivo,<span class="st">"C:/Users/HP I3/OneDrive/Documentos/Projeto Monografia/Dados/data_descritivo.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="estimativa-de-condutores-nas-capitais" class="level2">
+<h2 class="anchored" data-anchor-id="estimativa-de-condutores-nas-capitais">2.2. Estimativa de condutores nas capitais</h2>
+<p>Abaixo, iremos estimar o número de condutores nas capitais brasileiras e em seguida plotar o gráfico e observar a série histórica.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data_descritivo <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:/Users/HP I3/OneDrive/Documentos/Projeto Monografia/Dados/data_descritivo.xlsx"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">data_trimestre =</span> <span class="fu">as.Date</span>(data_trimestre))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>numero_condutores <span class="ot">&lt;-</span> data_descritivo <span class="sc">%&gt;%</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(data_trimestre, label_trimestre, Contribuinte, Nao_contribuinte) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(data_trimestre, label_trimestre) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">condutores =</span> <span class="fu">sum</span>(Contribuinte <span class="sc">+</span> Nao_contribuinte))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'data_trimestre'. You can override using
+the `.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>numero_condutores <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> data_trimestre, </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> condutores)) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Número de condutores"</span>) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Trimestre"</span>) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">breaks =</span> numero_condutores<span class="sc">$</span>data_trimestre,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">labels =</span> numero_condutores<span class="sc">$</span>label_trimestre) <span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">max</span>(numero_condutores<span class="sc">$</span>condutores),</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">by =</span> <span class="dv">20000</span>),</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_comma</span>(<span class="at">big.mark =</span> <span class="st">"."</span>)) <span class="sc">+</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">angle =</span> <span class="dv">45</span>,</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">vjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">vjust =</span> <span class="dv">3</span>),</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"gray70"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in prettyNum(.Internal(format(x, trim, digits, nsmall, width, 3L, :
+'big.mark' and 'decimal.mark' are both '.', which could be confusing</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="script_monografia_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Observa-se que até o terceiro trimestre de 2015, a quantidade varia de aproximadamente 260.000 à 300.000, indicando certa estabilidade. No entanto, após esse período a quantidade cresce acentuadamente até alcançar o pico de 444.000 no terceiro trimestre de 2017, um aumento de aproximadamente 56% em dois anos.</p>
+</section>
+<section id="contribuição-previdenciária" class="level2">
+<h2 class="anchored" data-anchor-id="contribuição-previdenciária">2.3. Contribuição previdenciária</h2>
+<p>A seguir observaremos a série histórica da controbuição das capitais.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>contribuicao_serie <span class="ot">&lt;-</span> data_descritivo <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(data_trimestre, label_trimestre, Contribuinte, Nao_contribuinte) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(data_trimestre, label_trimestre) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">contribuintes =</span> <span class="fu">sum</span>(Contribuinte),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">nao_contribuintes =</span> <span class="fu">sum</span>(Nao_contribuinte)) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc_contribuicao =</span> contribuintes<span class="sc">/</span>(contribuintes <span class="sc">+</span> nao_contribuintes))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'data_trimestre'. You can override using
+the `.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>contribuicao_serie <span class="sc">%&gt;%</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> data_trimestre, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> perc_contribuicao)) <span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Percentual de contribuição previdenciária"</span>) <span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Trimestre"</span>) <span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">breaks =</span> contribuicao_serie<span class="sc">$</span>data_trimestre,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">labels =</span> contribuicao_serie<span class="sc">$</span>label_trimestre) <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">percent_format</span>(<span class="at">accuracy =</span> <span class="dv">1</span>),</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">angle =</span> <span class="dv">45</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">vjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">vjust =</span> <span class="dv">3</span>),</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"gray70"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="script_monografia_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A análise pode ser dividida em três períodos: antes do início das operações da Uber, fase de implementação e expansão. Noprimeiro período que vai até o segundo trimestre de 2014, o percentual sai da mínima histórica em 2/2012 de 45% e chega a 48% em 2/2014. No entanto, com grau de variabilidade de 11 pontos percentuais entre a mínima e máxima nesse intervalo de tempo. O segundo período que vai até o primeiro trimestre de 2016 é marcado pelo crescimento de contribuintes, que inicia em 3/2014 em 50% e finaliza com 56% e com uma variabilidade de 7 pontos percentuais entre a mínima e máxima do intervalo analisado. E por fim, no terceiro período, após 5 trimestres sem iniciar em novas cidades, apresenta uma queda vertiginosa no percentual de contribuição previdenciária. Iniciando o segundo trimestre de 2016 com 52% e renovando a mínima histórica em 3/2017 com 39%, encerrando 2017 presente em todas as capitais com 41%.</p>
+<p>Abaixo, analisaremos a contribuição desagregada pelas grupos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>contribuicao_serie_grupos <span class="ot">&lt;-</span> data_descritivo <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(data_trimestre, label_trimestre, Contribuinte, Nao_contribuinte, grupo) <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(data_trimestre, label_trimestre, grupo) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">contribuintes =</span> <span class="fu">sum</span>(Contribuinte),</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">nao_contribuintes =</span> <span class="fu">sum</span>(Nao_contribuinte)) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc_contribuicao =</span> contribuintes<span class="sc">/</span>(contribuintes <span class="sc">+</span> nao_contribuintes))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'data_trimestre', 'label_trimestre'. You
+can override using the `.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>contribuicao_serie_grupos <span class="sc">%&gt;%</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> data_trimestre, </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> perc_contribuicao,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> grupo,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape =</span> grupo)) <span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Percentual de contribuição previdenciária"</span>) <span class="sc">+</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Trimestre"</span>) <span class="sc">+</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">breaks =</span> contribuicao_serie_grupos<span class="sc">$</span>data_trimestre,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">labels =</span> contribuicao_serie_grupos<span class="sc">$</span>label_trimestre) <span class="sc">+</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">percent_format</span>(<span class="at">accuracy =</span> <span class="dv">1</span>),</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">angle =</span> <span class="dv">45</span>,</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">vjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">vjust =</span> <span class="dv">3</span>),</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"gray70"</span>),</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="script_monografia_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>No período que antecedeu a intervenção, observou-se um aumento na cobertura previdenciária dos condutores do grupo de implementação, passando de 50% para 60% no terceiro trimestre de 2014. E após isso, manteve-se com relativa estabilidade até o terceiro trimestre de 2016. A partir disto, apresenta trajetória de queda, atingindo a mínima de 43% em 3/2017. Com relação ao grupo de expansão, o início da série analisada tem uma mínima de 37% no último trimestre de 2013 e o percentual, na média, cresce até chegar à 47% em 3/2016, um trimestre após a entrada da Uber. E em seguida apresenta tendência de queda, renovando a mínima em 32% no último trimestre de 2017. As capitais utilizadas como grupo de controle apresenta alto grau de variabilidade no percentual, apesar disso, após o último trimestre de 2016, a média do percentual de condutores contribuintes entra em convergência de queda.</p>
+</section>
+<section id="jornada-média-de-trabalho" class="level2">
+<h2 class="anchored" data-anchor-id="jornada-média-de-trabalho">2.4. Jornada média de trabalho</h2>
+<p>Iremos agora analisar a jornada média de trabalho, seguindo a mesma lógica da contribuição previdenciária.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>jornada_trabalho_serie <span class="ot">&lt;-</span> data_descritivo <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total_condutores =</span> Contribuinte <span class="sc">+</span> Nao_contribuinte) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(data_trimestre, label_trimestre, total_condutores, horas_trabalho) <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(data_trimestre, label_trimestre) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">jornada_media =</span> <span class="fu">weighted.mean</span>(horas_trabalho, total_condutores))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'data_trimestre'. You can override using
+the `.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>jornada_trabalho_serie <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> data_trimestre, </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> jornada_media)) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Jornada média de trabalho semanal"</span>) <span class="sc">+</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Trimestre"</span>) <span class="sc">+</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">breaks =</span> jornada_trabalho_serie<span class="sc">$</span>data_trimestre,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">labels =</span> jornada_trabalho_serie<span class="sc">$</span>label_trimestre) <span class="sc">+</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">paste0</span>(x, <span class="st">" horas"</span>)) <span class="sc">+</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">angle =</span> <span class="dv">45</span>,</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">vjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">vjust =</span> <span class="dv">3</span>),</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"gray70"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="script_monografia_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A máxima histórica foi registrada no primeiro trimestre de 2012 com jornada média de 53 horas de trabalho semanais. Desde então, o comportamento é de declínio e observa-se um choque entre os dois últimos trimestres de 2015, uma diminuição de 49 para 45 horas. E por fim, finda o ano de 2017 com a mínima registrada de 45 horas.</p>
+<p>A seguir, observamos a série agregada por grupos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>jornada_trabalho_serie_grupos <span class="ot">&lt;-</span> data_descritivo <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total_condutores =</span> Contribuinte <span class="sc">+</span> Nao_contribuinte) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(data_trimestre, label_trimestre, total_condutores, horas_trabalho, grupo) <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(data_trimestre, label_trimestre, grupo) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">jornada_media =</span> <span class="fu">weighted.mean</span>(horas_trabalho, total_condutores))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'data_trimestre', 'label_trimestre'. You
+can override using the `.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>jornada_trabalho_serie_grupos <span class="sc">%&gt;%</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> data_trimestre, </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> jornada_media,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> grupo,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape =</span> grupo)) <span class="sc">+</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Jornada média de trabalho semanal"</span>) <span class="sc">+</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Trimestre"</span>) <span class="sc">+</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">breaks =</span> jornada_trabalho_serie_grupos<span class="sc">$</span>data_trimestre,</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">labels =</span> jornada_trabalho_serie_grupos<span class="sc">$</span>label_trimestre) <span class="sc">+</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">paste0</span>(x, <span class="st">" horas"</span>)) <span class="sc">+</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">angle =</span> <span class="dv">45</span>,</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">vjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">vjust =</span> <span class="dv">3</span>),</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"gray70"</span>),</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="script_monografia_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As capitais referentes ao grupo de implementação, inicia a séria histórica com média de 51 horas, e reduz à 49 horas no trimestre que marca o início dos aplicativos de transporte. A partir disso diminui até o quarto trimestre de 2015, e em seguida se mantem com estabilidade entre 46 e 47 horas semanais. O grupo de expansão inicia a série histórica com média de 52 horas e apresenta diminuição de forma mais persistente a partir do último trimestre de 2014, atingindo média de 45 horas em 4/2015, e após um breve período de aumento da jornada, finaliza 2017 com jornada de trabalho semanal de 45 horas. As capitais do grupo de controle seguem comportamento semelhante dos demais grupos, inicia a série com 55 horas, apresenta tendência de queda mais moderada até o terceiro trimestre de 2015 atingindo 48 horas, no período seguinte apresenta uma diminuição brusca, e finaliza 2017 com jornada média semanal de 42 horas.</p>
+</section>
+</section>
+<section id="análise-econométrica" class="level1">
+<h1>3. Análise econométrica</h1>
+<p>Após a análise descritiva, esta seção implementa a análise inferencial para testar formalmente as hipóteses do estudo. O impacto das plataformas digitais é estimado através de um modelo de Diferenças em Diferenças (DiD). A análise foca em duas variáveis dependentes, representando as dimensões de condições de trabalho: o percentual de contribuição previdenciária e a jornada média de trabalho semanal.</p>
+<section id="tratamento-dos-dados-1" class="level2">
+<h2 class="anchored" data-anchor-id="tratamento-dos-dados-1">3.1. Tratamento dos dados</h2>
+<p>A definição da variável de interesse, que medirá o impacto do Uber sobre as condições de trabalho, será atribuindo valor 1 para todo período posterior à entrada da plataforma, e 0 para os anteriores e para as capitais que são instrumentalizadas como grupo de controle em todo o período. Os marcos são referenciados na tabela abaixo.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 65%">
+<col style="width: 34%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Capitais</strong></td>
+<td style="text-align: center;"><strong>Trimestre de início (Time)</strong></td>
+</tr>
+<tr class="even">
+<td>Rio de Janeiro, São Paulo</td>
+<td style="text-align: center;">mar/14 (11)</td>
+</tr>
+<tr class="odd">
+<td>Belo Horizonte; Brasília; Porto Alegre</td>
+<td style="text-align: center;">jan/15 (13)</td>
+</tr>
+<tr class="even">
+<td>Recife; Curitiba; Salvador; Fortaleza, Goiânia, Natal</td>
+<td style="text-align: center;">mar/16 (19)</td>
+</tr>
+<tr class="odd">
+<td>Florianópolis; Vitória; João Pessoa; Campo Grande; Maceió; Cuiabá</td>
+<td style="text-align: center;">jan/17 (21)</td>
+</tr>
+<tr class="even">
+<td>Aracaju; Teresina; Belém; São Luís</td>
+<td style="text-align: center;">fev/17 (22)</td>
+</tr>
+<tr class="odd">
+<td>Palmas; Manaus; Porto Velho; Boa Vista; Macapá; Rio Branco</td>
+<td style="text-align: center;">Controle</td>
+</tr>
+</tbody>
+</table>
+<p>Primeiro é necessário criar a variável time para marcar os períodos, um total de 24, compreendendo o primeiro trimestre de 2012 e o último de 2017. O time de determinando período pode ser obtido multiplicando o número de trimestres transcorridos anualmente mais o número do atual trimestre. A título de exemplo, o terceiro trimestre de 2014:</p>
+<ul>
+<li><p>Ano de início dos dados: 2012</p></li>
+<li><p>Ano atual: 2014</p></li>
+<li><p>2014 - 2012 = 2</p></li>
+<li><p>Anos * trimestres = 2 *4 = 8</p></li>
+<li><p>Trimestres transcorridos + trimestre atual = 8 + 3 = 11</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Definindo variável time (Período)</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>dados_analise <span class="ot">&lt;-</span> data_descritivo <span class="sc">%&gt;%</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> ((Ano <span class="sc">-</span> <span class="fu">min</span>(Ano)) <span class="sc">*</span> <span class="dv">4</span> <span class="sc">+</span> Trimestre))</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Definindo variável de tratamento</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>dados_analise <span class="ot">&lt;-</span> dados_analise <span class="sc">%&gt;%</span> </span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tratado_controle =</span> <span class="fu">case_when</span>(<span class="fu">is.na</span>(periodo_inicio) <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>                                      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tratamento =</span> <span class="fu">case_when</span>(time <span class="sc">&gt;=</span> periodo_inicio <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>                                <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Por fim, no bloco abaixo, iremos aplicar logaritmo tanto nas variáveis depedentes, quanto nas de controle.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dados_analise<span class="sc">$</span>contribuinte_previdencia <span class="ot">&lt;-</span> dados_analise<span class="sc">$</span>contribuinte_previdencia <span class="sc">+</span> <span class="fl">0.0001</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>dados_analise_final <span class="ot">&lt;-</span> dados_analise <span class="sc">%&gt;%</span> </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(contribuinte_previdencia, horas_trabalho ,taxa_desemprego, perc_superior,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                  pib_per_capita, taxa_acidentes), log, <span class="at">.names =</span> <span class="st">"ln_{.col}"</span>))</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co">#write_xlsx(dados_analise_final, "C:/Users/HP I3/OneDrive/Documentos/Projeto Monografia/Dados/dados_final.xlsx")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="contribuição-previdenciária-1" class="level2">
+<h2 class="anchored" data-anchor-id="contribuição-previdenciária-1">3.2. Contribuição previdenciária</h2>
+<p>A seguir, iremos estimar o efeito dos aplicativos sobre a contribuição previdenciária dos condutores através do modelo de diferenças em diferenças, medido através da variável <code>tratamento</code> definida anteriormente. Além disto, iremos incluir transformar a variável <code>time</code> em dummies para controlar os efeitos fixos de tempo (ou heterogenidade temporal).</p>
+<p>Por último, aplicaremos aplicar o teste de significância dos coeficientes com erros-padrão robustos (do tipo White/Huber), obtidos por meio da função <code>vcovHC()</code> com o argumento type = “HC1”. Essa abordagem corrige possíveis violações da hipótese de homocedasticidade, proporcionando estimativas mais consistentes dos erros-padrão e, consequentemente, testes t mais confiáveis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>dados_analise <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:/Users/HP I3/OneDrive/Documentos/Projeto Monografia/Dados/dados_final.xlsx"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># modelo</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>modelo_contribuicao <span class="ot">&lt;-</span> <span class="fu">lm</span>(ln_contribuinte_previdencia <span class="sc">~</span> tratamento <span class="sc">+</span> tratado_controle <span class="sc">+</span> ln_pib_per_capita <span class="sc">+</span> ln_perc_superior <span class="sc">+</span> ln_taxa_desemprego <span class="sc">+</span> ln_taxa_acidentes <span class="sc">+</span> <span class="fu">factor</span>(time),</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data =</span> dados_analise)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(modelo_contribuicao, <span class="at">vcov =</span> <span class="fu">vcov</span>(modelo_contribuicao, <span class="at">type =</span> <span class="st">"HC1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+t test of coefficients:
+
+                     Estimate Std. Error t value  Pr(&gt;|t|)    
+(Intercept)        -4.6813481  1.1690063 -4.0046 6.969e-05 ***
+tratamento          0.0373176  0.1187564  0.3142  0.753447    
+tratado_controle    0.1623065  0.0885174  1.8336  0.067192 .  
+ln_pib_per_capita   0.2312208  0.1270360  1.8201  0.069224 .  
+ln_perc_superior    0.5200641  0.1607573  3.2351  0.001281 ** 
+ln_taxa_desemprego -0.2184667  0.1081353 -2.0203  0.043782 *  
+ln_taxa_acidentes  -0.0018614  0.0238662 -0.0780  0.937859    
+factor(time)2       0.0024388  0.2159720  0.0113  0.990994    
+factor(time)3       0.0200663  0.2160466  0.0929  0.926029    
+factor(time)4       0.2202812  0.2164363  1.0178  0.309188    
+factor(time)5       0.2345598  0.2160828  1.0855  0.278120    
+factor(time)6       0.3691497  0.2161756  1.7076  0.088206 .  
+factor(time)7       0.1983208  0.2164342  0.9163  0.359862    
+factor(time)8       0.3086317  0.2171636  1.4212  0.155765    
+factor(time)9       0.2314581  0.2165626  1.0688  0.285585    
+factor(time)10     -0.0741160  0.2167827 -0.3419  0.732549    
+factor(time)11      0.1784320  0.2168705  0.8228  0.410963    
+factor(time)12      0.1896997  0.2171463  0.8736  0.382674    
+factor(time)13      0.3374016  0.2174898  1.5513  0.121331    
+factor(time)14      0.3343545  0.2174788  1.5374  0.124704    
+factor(time)15      0.3859951  0.2177832  1.7724  0.076824 .  
+factor(time)16      0.2476529  0.2176689  1.1378  0.255666    
+factor(time)17      0.3376398  0.2205287  1.5310  0.126270    
+factor(time)18      0.2932240  0.2212061  1.3256  0.185472    
+factor(time)19      0.3068559  0.2251241  1.3631  0.173362    
+factor(time)20      0.2427040  0.2255455  1.0761  0.282313    
+factor(time)21      0.0839687  0.2338941  0.3590  0.719715    
+factor(time)22      0.0129761  0.2386844  0.0544  0.956662    
+factor(time)23     -0.0680702  0.2383045 -0.2856  0.775247    
+factor(time)24     -0.1687248  0.2376122 -0.7101  0.477919    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>O modelo não identificou impacto das plataformas na informalização dos condutores. Embora tenha havido diminuição no percentual de contribuintes, o fenômeno foi comum e em grau semelhante à todas as capitais, em convergência com os resultados descritivos.</p>
+</section>
+<section id="jornada-de-trabalho-1" class="level2">
+<h2 class="anchored" data-anchor-id="jornada-de-trabalho-1">3.3. Jornada de trabalho</h2>
+<p>O mesmo processo aplicado para contribuição previdencária, será repetido para a jornada média de trabalho no código abaixo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>modelo_jornada_trabalho <span class="ot">&lt;-</span> <span class="fu">lm</span>(ln_horas_trabalho <span class="sc">~</span> tratamento <span class="sc">+</span> tratado_controle <span class="sc">+</span> ln_pib_per_capita <span class="sc">+</span> ln_perc_superior <span class="sc">+</span> ln_taxa_desemprego <span class="sc">+</span> ln_taxa_acidentes <span class="sc">+</span> <span class="fu">factor</span>(time),</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data =</span> dados_analise)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(modelo_jornada_trabalho, <span class="at">vcov =</span> <span class="fu">vcov</span>(modelo_jornada_trabalho, <span class="at">type =</span> <span class="st">"HC1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+t test of coefficients:
+
+                     Estimate Std. Error t value  Pr(&gt;|t|)    
+(Intercept)         4.7263234  0.1452571 32.5376 &lt; 2.2e-16 ***
+tratamento          0.0398540  0.0147563  2.7008 0.0071067 ** 
+tratado_controle    0.0087062  0.0109989  0.7916 0.4289230    
+ln_pib_per_capita  -0.0667545  0.0157851 -4.2290 2.703e-05 ***
+ln_perc_superior    0.0257472  0.0199752  1.2890 0.1978954    
+ln_taxa_desemprego -0.0607694  0.0134366 -4.5227 7.322e-06 ***
+ln_taxa_acidentes  -0.0024568  0.0029655 -0.8284 0.4077363    
+factor(time)2      -0.0339457  0.0268360 -1.2649 0.2063725    
+factor(time)3      -0.0506870  0.0268453 -1.8881 0.0594785 .  
+factor(time)4      -0.0813925  0.0268937 -3.0265 0.0025773 ** 
+factor(time)5      -0.0623237  0.0268498 -2.3212 0.0206005 *  
+factor(time)6      -0.1227577  0.0268613 -4.5701 5.890e-06 ***
+factor(time)7      -0.0565024  0.0268934 -2.1010 0.0360478 *  
+factor(time)8      -0.0671615  0.0269841 -2.4889 0.0130748 *  
+factor(time)9      -0.0663728  0.0269094 -2.4665 0.0139132 *  
+factor(time)10     -0.0903018  0.0269367 -3.3524 0.0008502 ***
+factor(time)11     -0.0875904  0.0269477 -3.2504 0.0012151 ** 
+factor(time)12     -0.0775012  0.0269819 -2.8723 0.0042143 ** 
+factor(time)13     -0.0732531  0.0270246 -2.7106 0.0069025 ** 
+factor(time)14     -0.0510410  0.0270232 -1.8888 0.0593893 .  
+factor(time)15     -0.0897652  0.0270611 -3.3171 0.0009628 ***
+factor(time)16     -0.2030307  0.0270469 -7.5066 2.127e-13 ***
+factor(time)17     -0.1592450  0.0274022 -5.8114 9.928e-09 ***
+factor(time)18     -0.1743303  0.0274864 -6.3424 4.370e-10 ***
+factor(time)19     -0.1551440  0.0279732 -5.5462 4.332e-08 ***
+factor(time)20     -0.1531709  0.0280256 -5.4654 6.707e-08 ***
+factor(time)21     -0.1667650  0.0290630 -5.7381 1.501e-08 ***
+factor(time)22     -0.1822611  0.0296582 -6.1454 1.430e-09 ***
+factor(time)23     -0.1908878  0.0296110 -6.4465 2.307e-10 ***
+factor(time)24     -0.1968948  0.0295250 -6.6688 5.730e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>O método de diferenças em diferenças, o resultado indica efeito de aumento na jornada de trabalho em decorrência da intervenção no mercado. Este resultado não diverge dos resultados descritivos, que apesar de ter havido uma diminuição geral na quantidade de horas de trabalho semanal, as capitais onde a plataforma operava apresentaram uma diminuição significativamente menor em comparação àquelas onde não havia operação, conforme indicado pelo modelo.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

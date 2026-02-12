@@ -198,7 +198,7 @@ analisando_pnad <- function(ano, trimestre) {
   
 #calculando percentual da população adulta com ensino superior  
   ensino_superior <- base_tratada %>%
-    filter(V2009 >= 18 & V2009 <= 65) %>% 
+    filter(V2009 >= 18) %>% 
     filter(!is.na(VD3004)) %>%
     group_by(Capital, Ano, Trimestre) %>%
     summarise(
@@ -234,7 +234,7 @@ options(timeout = 600)
 resultado_total <- data.frame()
 
 # Loop para os anos e trimestres
-for (ano in 2016:2017) {
+for (ano in 2015:2017) {
   for (trimestre in 1:4) {
     
     # Chama a função para o ano e trimestre atuais
@@ -245,7 +245,7 @@ for (ano in 2016:2017) {
   }
 }
 
-#write.xlsx(resultado_4, "~/Projeto Monografia/Dados/dados_backup.xlsx")
+#write.xlsx(resultado_final, "C:/Users/alefs/OneDrive/Documentos/Monografia/Dados/dados_pnad_09_02_2026.xlsx")
 ```
 
 A seguir, adicionaremos mais duas variáveis que também servirão como controle.
@@ -256,7 +256,7 @@ A primeira é o PIB per capita, que foi calculado a partir da divisão do PIB a 
 
 ```{r}
 #carregando os dados
-pib_per_capita <- read_excel("C:/Users/HP I3/OneDrive/Documentos/Projeto Monografia/Dados/pib_per_capita.xlsx")
+pib_per_capita <- read_excel("C:/Users/HP I3/OneDrive/Documentos/Monografia/Dados/pib_per_capita.xlsx")
 
 resultado_total_2 <- resultado_total %>% 
   mutate(Ano = as.numeric(Ano),
@@ -272,7 +272,7 @@ A estrutura dos dados tem duas complexidades que precisam ser tratadas, a primei
 
 ```{r}
 #carregando os dados
-acidentes <- read_excel("C:/Users/HP I3/OneDrive/Documentos/Projeto Monografia/Dados/acidentes.xlsx")
+acidentes <- read_excel("C:/Users/HP I3/OneDrive/Documentos/Monografia/Dados/acidentes.xlsx")
 
 #gerando vetor com nome das capitais
 capitais <- resultado_total_2 %>% 
@@ -284,7 +284,7 @@ acidentes <- acidentes %>%
   mutate(Município = paste0(Município," (",Sigla,")")) %>% 
   filter(Município %in% capitais) %>% 
   select(-Sigla, -Codigo) %>% 
-  pivot_longer(cols = 2:12,
+  pivot_longer(cols = 2:7,
                names_to = "Ano",
                values_to = "taxa_acidentes"
                ) %>% 
@@ -292,6 +292,7 @@ acidentes <- acidentes %>%
 
 #juntando à base
 resultado_completo <- resultado_total_2 %>% 
+  mutate(Ano = as.numeric(Ano)) %>% 
   left_join(acidentes, by = c("Ano", "Capital" = "Município"))
 ```
 
@@ -306,7 +307,7 @@ Nessa seção observaremos as estimativas históricas de condutores nas capitais
 -   **Grupo de controle**: as capitais que receberam plataforma em 2017 e que são instrumentalizadas como grupo de controle.
 
     |  |  |
-    |----------------------------------------------|:-----------------------:|
+    |----------------------------------------------|:------------------------:|
     | **Capitais** | **Trimestre de início (Time)** |
     | Rio de Janeiro, São Paulo | mar/14 (11) |
     | Belo Horizonte; Brasília; Porto Alegre | jan/15 (13) |
@@ -363,7 +364,7 @@ data_descritivo <- resultado_completo %>%
          data_trimestre = yq(paste0(Ano, "/", Trimestre)),
          label_trimestre = paste0(Trimestre, "/", Ano))
 
-write.xlsx(data_descritivo,"C:/Users/HP I3/OneDrive/Documentos/Projeto Monografia/Dados/data_descritivo.xlsx")
+#write.xlsx(data_descritivo,"C:/Users/HP I3/OneDrive/Documentos/Projeto Monografia/Dados/data_descritivo.xlsx")
   
 ```
 
@@ -374,8 +375,8 @@ Abaixo, iremos estimar o número de condutores nas capitais brasileiras e em seg
 ```{r}
 #| eval: true
 
-data_descritivo <- read_excel("C:/Users/HP I3/OneDrive/Documentos/Projeto Monografia/Dados/data_descritivo.xlsx") %>% 
-mutate(data_trimestre = as.Date(data_trimestre))
+#data_descritivo <- read_excel("C:/Users/HP I3/OneDrive/Documentos/Projeto Monografia/Dados/data_descritivo.xlsx") %>% 
+#mutate(data_trimestre = as.Date(data_trimestre))
 
 numero_condutores <- data_descritivo %>% 
   select(data_trimestre, label_trimestre, Contribuinte, Nao_contribuinte) %>% 
@@ -433,8 +434,7 @@ contribuicao_serie %>%
   xlab("Trimestre") +
   scale_x_date(breaks = contribuicao_serie$data_trimestre,
                labels = contribuicao_serie$label_trimestre) +
-  scale_y_continuous(labels = scales::percent_format(accuracy = 1),
-                     limits = c(0,1)) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
   theme_minimal() +
   theme(axis.text.x = element_text(size = 13,
                                    angle = 45,
@@ -475,8 +475,7 @@ contribuicao_serie_grupos %>%
   xlab("Trimestre") +
   scale_x_date(breaks = contribuicao_serie_grupos$data_trimestre,
                labels = contribuicao_serie_grupos$label_trimestre) +
-  scale_y_continuous(labels = scales::percent_format(accuracy = 1),
-                     limits = c(0,1)) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
   theme_minimal() +
   theme(axis.text.x = element_text(size = 13,
                                    angle = 45,
@@ -608,6 +607,7 @@ Primeiro é necessário criar a variável time para marcar os períodos, um tota
 ```{r}
 #Definindo variável time (Período)
 dados_analise <- data_descritivo %>% 
+  mutate(Trimestre = as.numeric(Trimestre)) %>% 
   mutate(time = ((Ano - min(Ano)) * 4 + Trimestre))
 
 #Definindo variável de tratamento
@@ -644,7 +644,7 @@ dados_analise <- read_excel("C:/Users/HP I3/OneDrive/Documentos/Projeto Monograf
 
 # modelo
 modelo_contribuicao <- lm(ln_contribuinte_previdencia ~ tratamento + tratado_controle + ln_pib_per_capita + ln_perc_superior + ln_taxa_desemprego + ln_taxa_acidentes + factor(time),
-                          data = dados_analise)
+                          data = dados_analise_final)
 
 coeftest(modelo_contribuicao, vcov = vcov(modelo_contribuicao, type = "HC1"))
 ```
@@ -659,7 +659,7 @@ O mesmo processo aplicado para contribuição previdencária, será repetido par
 #| eval: true
 
 modelo_jornada_trabalho <- lm(ln_horas_trabalho ~ tratamento + tratado_controle + ln_pib_per_capita + ln_perc_superior + ln_taxa_desemprego + ln_taxa_acidentes + factor(time),
-                          data = dados_analise)
+                          data = dados_analise_final)
 
 
 coeftest(modelo_jornada_trabalho, vcov = vcov(modelo_jornada_trabalho, type = "HC1"))
